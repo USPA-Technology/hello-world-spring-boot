@@ -1,6 +1,8 @@
 package io.datawire.labs.hellospring;
 
 import java.util.concurrent.TimeUnit;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,12 +15,23 @@ public class HelloController {
 
     @GetMapping("/")
     public String sayHello() {
-        long millis = System.currentTimeMillis() - start;
-        String uptime = String.format("%02d:%02d",
-                                      TimeUnit.MILLISECONDS.toMinutes(millis),
-                                      TimeUnit.MILLISECONDS.toSeconds(millis) -
-                                      TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
-        return String.format("Hello, Spring! (up %s, %s)", uptime, System.getenv("BUILD_PROFILE"));
+    	
+    	String ipa;
+//        String hostname;
+        try {
+//        	hostname = InetAddress.getLocalHost().getHostName();
+            ipa = InetAddress.getLocalHost().toString();
+//            System.out.println("Your current IP address : " + ipa);
+//            System.out.println("Your current Hostname : " + hostname);
+            
+            return "Hello World from " + ipa;
+ 
+        } catch (UnknownHostException e) {
+ 
+            e.printStackTrace();
+        }
+
+        return "Hello !";
     }
 
 }
